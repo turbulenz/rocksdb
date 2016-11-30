@@ -477,7 +477,7 @@ HashLinkListRep::HashLinkListRep(const MemTableRep::KeyComparator& compare,
       bucket_size_(bucket_size),
       // Threshold to use skip list doesn't make sense if less than 3, so we
       // force it to be minimum of 3 to simplify implementation.
-      threshold_use_skiplist_(std::max(threshold_use_skiplist, 3U)),
+      threshold_use_skiplist_(std::max(threshold_use_skiplist, (uint32_t)3U)),
       transform_(transform),
       compare_(compare),
       logger_(logger),

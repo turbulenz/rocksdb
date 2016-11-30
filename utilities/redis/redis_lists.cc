@@ -123,7 +123,7 @@ std::vector<std::string> RedisLists::Range(const std::string& key,
   db_->Get(get_option_, key, &data);
 
   // Handle negative bounds (-1 means last element, etc.)
-  int listLen = Length(key);
+  int32_t listLen = Length(key);
   if (first < 0) {
     first = listLen - (-first);           // Replace (-x) with (N-x)
   }
@@ -132,9 +132,9 @@ std::vector<std::string> RedisLists::Range(const std::string& key,
   }
 
   // Verify bounds (and truncate the range so that it is valid)
-  first = std::max(first, 0);
-  last = std::min(last, listLen-1);
-  int len = std::max(last-first+1, 0);
+  first = std::max<int32_t>(first, 0);
+  last = std::min<int32_t>(last, listLen-1);
+  int32_t len = std::max<int32_t>(last-first+1, 0);
 
   // Initialize the resulting list
   std::vector<std::string> result(len);
@@ -290,7 +290,7 @@ bool RedisLists::Trim(const std::string& key, int32_t start, int32_t stop) {
   db_->Get(get_option_, key, &data);
 
   // Handle negative indices in REDIS
-  int listLen = Length(key);
+  int32_t listLen = Length(key);
   if (start < 0) {
     start = listLen - (-start);
   }
@@ -299,7 +299,7 @@ bool RedisLists::Trim(const std::string& key, int32_t start, int32_t stop) {
   }
 
   // Truncate bounds to only fit in the list
-  start = std::max(start, 0);
+  start = std::max<int32_t>(start, 0);
   stop = std::min(stop, listLen-1);
 
   // Construct an iterator for the list. Drop all undesired elements.
@@ -463,7 +463,7 @@ int RedisLists::RemoveLast(const std::string& key, int32_t num,
   Slice elem;
 
   // Count the total number of occurrences of value
-  int totalOccs = 0;
+  int32_t totalOccs = 0;
   for (RedisListIterator it(data); !it.Done(); it.Skip()) {
     it.GetCurrent(&elem);
     if (elem == value) {
