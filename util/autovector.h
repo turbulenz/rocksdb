@@ -96,16 +96,16 @@ class autovector {
       return old;
     }
 
-    self_type operator-(difference_type len) {
+    self_type operator-(difference_type len) const {
       return self_type(vect_, index_ - len);
     }
 
-    difference_type operator-(const self_type& other) {
+    difference_type operator-(const self_type& other) const {
       assert(vect_ == other.vect_);
       return index_ - other.index_;
     }
 
-    self_type operator+(difference_type len) {
+    self_type operator+(difference_type len) const {
       return self_type(vect_, index_ + len);
     }
 

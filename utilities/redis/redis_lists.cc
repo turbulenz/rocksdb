@@ -132,9 +132,9 @@ std::vector<std::string> RedisLists::Range(const std::string& key,
   }
 
   // Verify bounds (and truncate the range so that it is valid)
-  first = std::max(first, 0);
-  last = std::min(last, listLen-1);
-  int len = std::max(last-first+1, 0);
+  first = std::max<decltype(first)>(first, 0);
+  last = std::min<decltype(last)>(last, listLen-1);
+  int len = std::max<int>(last-first+1, 0);
 
   // Initialize the resulting list
   std::vector<std::string> result(len);
@@ -299,8 +299,8 @@ bool RedisLists::Trim(const std::string& key, int32_t start, int32_t stop) {
   }
 
   // Truncate bounds to only fit in the list
-  start = std::max(start, 0);
-  stop = std::min(stop, listLen-1);
+  start = std::max<decltype(start)>(start, 0);
+  stop = std::min<decltype(stop)>(stop, listLen-1);
 
   // Construct an iterator for the list. Drop all undesired elements.
   int curIndex = 0;
@@ -473,7 +473,7 @@ int RedisLists::RemoveLast(const std::string& key, int32_t num,
 
   // Construct an iterator to the data. Reserve enough space for the result.
   RedisListIterator it(data);
-  int bytesRemoved = std::min(num,totalOccs)*it.SizeOf(value);
+  int bytesRemoved = std::min<int>(num,totalOccs)*it.SizeOf(value);
   it.Reserve(it.Size() - bytesRemoved);
 
   // Traverse the list, appending all but the desired occurrences of value.
