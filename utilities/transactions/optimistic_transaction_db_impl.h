@@ -25,7 +25,7 @@ class OptimisticTransactionDBImpl : public OptimisticTransactionDB {
         db_owner_(take_ownership),
         validate_policy_(occ_options.validate_policy) {
     if (validate_policy_ == OccValidationPolicy::kValidateParallel) {
-      uint32_t bucket_size = std::max(16u, occ_options.occ_lock_buckets);
+      uint32_t bucket_size = std::max<uint32_t>(16u, occ_options.occ_lock_buckets);
       bucketed_locks_.reserve(bucket_size);
       for (size_t i = 0; i < bucket_size; ++i) {
         bucketed_locks_.emplace_back(

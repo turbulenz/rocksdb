@@ -60,7 +60,7 @@ CuckooTableBuilder::CuckooTableBuilder(
       max_hash_table_ratio_(max_hash_table_ratio),
       max_num_hash_func_(max_num_hash_table),
       max_search_depth_(max_search_depth),
-      cuckoo_block_size_(std::max(1U, cuckoo_block_size)),
+      cuckoo_block_size_(std::max<uint32_t>(1u, cuckoo_block_size)),
       hash_table_size_(use_module_hash ? 0 : 2),
       is_last_level_file_(false),
       has_seen_first_key_(false),
